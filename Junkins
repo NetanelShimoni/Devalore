@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    tools{
+        nodejs '16.0.0'
+    }
+
+     stages {
+        stage('CheckOut') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/NetanelShimoni/Devalore.git']]])
+            }
+        }
+        stage('CheckOut to git') {
+            steps{
+                git branch: 'main', url: 'https://github.com/NetanelShimoni/Devalore.git'
+            }
+        }
+         stage('Install deps') {
+      steps {
+        sh 'npm install'
+      }
+    }  
+        
+        stage("Run test"){
+            steps{
+                sh 'npm run test'
+            }
+        }
+    }
+}
