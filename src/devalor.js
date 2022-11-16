@@ -1,9 +1,17 @@
+require('dotenv').config()
 const axios = require('axios');
-const getURL = () => "https://api.exchangerate.host/latest"
+const mockData = require('./data/mockData.json');
+const isPROD = process.env.env === "prod"
+
+const getURL = () => isPROD ? "https://api.exchangerate.host/latest" : undefined
 
 const getAllRates = async (url = getURL()) => {
+  if(url){
   const { data } = await axios.get(url)
   return data.rates
+  }else{
+    return mockData.data;
+  }
 }
 
 const getRatesAfterFilter = async () => {
@@ -11,9 +19,9 @@ const getRatesAfterFilter = async () => {
   return Object.values(rates).filter((value) => value <= 10)
 }
 
-//  getRatesAfterFilter().then(console.log)
+getAllRates().then(console.log)
 
- module.exports = {
+module.exports = {
   getAllRates,
   getURL,
   getRatesAfterFilter
