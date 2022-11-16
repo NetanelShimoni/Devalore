@@ -19,7 +19,7 @@ const getRatesAfterFilter = async () => {
   return Object.values(rates).filter((value) => value <= 10)
 }
 
-getAllRates().then(console.log)
+// getAllRates().then(console.log)
 
 module.exports = {
   getAllRates,
